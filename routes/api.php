@@ -16,3 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('checklists', 'ListController')->only([
+    'index', 'show', 'store', 'destroy', 'update',
+])->middleware('auth.basic');
+
+Route::resource('tasks', 'TaskController')->only([
+    'show', 'store', 'destroy', 'update',
+])->middleware('auth.basic');
+
+Route::resource('users', 'UserController');
