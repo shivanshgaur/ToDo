@@ -22,7 +22,7 @@ Route::resource('checklists', 'ListController')->only([
 ])->middleware('auth.basic');
 
 Route::resource('tasks', 'TaskController')->only([
-    'show', 'store', 'destroy', 'update',
+    'store', 'destroy', 'update',
 ])->middleware('auth.basic');
 
 Route::resource('users', 'UserController');

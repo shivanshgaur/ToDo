@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -22,6 +23,8 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         //
+        $list = \App\Models\Checklist::findOrFail($request->input('list_id'));
+        $this->authorize('view', $list);
         $input = $request->only('name', 'list_id');
         Log::info($input);
         $data = Task::create($input);
@@ -53,7 +56,8 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         //
-        // check authorization on list_id
+        $list = \App\Models\Checklist::findOrFail($request->input('list_id'));
+        $this->authorize('view', $list);
         $input = $request->only('name', 'list_id', 'done');
         Log::info($input);
         $task->fill($input);
