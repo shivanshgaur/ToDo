@@ -41,7 +41,7 @@ class ListController extends Controller
         return response()->json([
           'success' => true,
           'data' => $checklist
-        ]);
+      ]);
     }
 
     /**

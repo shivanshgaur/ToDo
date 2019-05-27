@@ -32,7 +32,7 @@ class TaskController extends Controller
         return response()->json([
           'success' => true,
           'data' => $data,
-        ]);
+      ]);
     }
 
     /**
@@ -80,7 +80,8 @@ class TaskController extends Controller
     }
 
     public function fetch()
-    {   $result = Task::whereHas('Checklist', function($checklist){
+    {
+        $result = Task::whereHas('Checklist', function($checklist){
             $checklist->where(['user_id' => Auth::id()]);
         })->orderBy('created_at', 'desc');
 
