@@ -80,13 +80,16 @@ class TaskController extends Controller
     }
 
     public function fetch()
-    {
+    {   $result = Task::whereHas('Checklist', function($checklist){
+            $checklist->where(['user_id' => Auth::id()]);
+        })->orderBy('created_at', 'desc');
+
         if (Input::has('scheduled_at'))
         {
-            $result = Task::whereHas('Checklist', function($checklist)
+            $result->whereHas('Checklist', function($checklist)
             {
                 $checklist->where(['scheduled_at' => Input::get('scheduled_at')]);
-            })->orderBy('created_at', 'desc');
+            });
         }
 
         $done = Input::get('done');

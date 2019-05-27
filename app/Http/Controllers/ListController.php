@@ -22,7 +22,7 @@ class ListController extends Controller
     public function index()
     {
         //
-        return Checklist::where(['user_id' => Auth::id()])->get();
+        return Checklist::where(['user_id' => Auth::id()])->orderBy('created_at', 'desc')->get();
     }
 
     /**

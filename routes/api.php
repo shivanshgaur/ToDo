@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('tasks/fetch', 'TaskController@fetch');
+Route::get('tasks/fetch', 'TaskController@fetch')->middleware('auth.basic');
 Route::resource('checklists', 'ListController')->only([
     'index', 'show', 'store', 'destroy', 'update',
 ])->middleware('auth.basic');
