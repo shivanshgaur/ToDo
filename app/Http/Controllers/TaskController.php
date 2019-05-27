@@ -57,8 +57,12 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         //
-        $list = \App\Models\Checklist::findOrFail($request->input('list_id'));
-        $this->authorize('view', $list);
+        if ($request->has('list_id'))
+        {
+            $list = \App\Models\Checklist::findOrFail($request->input('list_id'));
+            $this->authorize('view', $list);
+        }
+
         $input = $request->only('name', 'list_id', 'done');
         Log::info($input);
         $task->fill($input);
