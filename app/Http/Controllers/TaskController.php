@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class TaskController extends Controller
 {
@@ -76,5 +77,24 @@ class TaskController extends Controller
         //
         $task->delete();
         return response()->json(['sucess' => true]);
+    }
+
+    public function fetch()
+    {
+        if (Input::has('scheduled_at'))
+        {
+            $result = Task::whereHas('Checklist', function($checklist)
+            {
+                $checklist->where(['scheduled_at' => Input::get('scheduled_at')]);
+            })->orderBy('created_at', 'desc');
+        }
+
+        $done = Input::get('done');
+        if (Input::has('done') and in_array($done, ['true', 'false']))
+        {
+            $result->where(['done' => ($done == 'true')]);
+        }
+        return $result->get();
+
     }
 }
